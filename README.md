@@ -30,7 +30,7 @@ This project focuses on analyzing transactional data to extract key insights and
 ## Installation & Usage
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/Customer-Transaction-Analysis.git
+   git clone https://github.com/haashirk20/Customer-Transaction-Analysis.git
    ```
 2. Install required Python dependencies:
    ```bash
