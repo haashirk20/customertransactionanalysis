@@ -45,6 +45,6 @@ This project focuses on analyzing transactional data to extract key insights and
 - Enhance Power BI dashboards with real-time data updates.
 
 ## Contact
-For any inquiries, feel free to reach out via [LinkedIn](https://linkedin.com/in/yourprofile) or email me at `your.email@example.com`.
+For any inquiries, feel free to reach out via [LinkedIn](https://www.linkedin.com/in/mohammed-haashir-khan/) or email me at `haashir.khan@mail.utoronto.ca`.
 
 
