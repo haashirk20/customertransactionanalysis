@@ -1,50 +1,57 @@
-# Customer Transaction Analysis and Fraud Detection
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme/hero-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/readme/hero-light.svg">
+    <img src="assets/readme/hero-dark.svg" width="880" alt="Customer transaction analysis: 13.3 million card transactions; on a 20,000-row sample, the impossible-travel check flagged 2,612 transactions and the spending check flagged 203.">
+  </picture>
+</p>
 
-Exploratory analysis of 13.3 million card transactions in Python and Power BI, with two rule-based checks that flag possibly fraudulent activity.
+<p align="center">
+  <strong>Exploratory analysis of 13.3 million card transactions, with two rule-based fraud checks.</strong><br>
+  <strong>2,612 impossible-travel flags &middot; 203 spending flags</strong> on a 20,000-row sample<br>
+  <sub>Python, pandas, Matplotlib and Seaborn in Google Colab, plus a Power BI report. Data: Kaggle Transactions Fraud Datasets. <a href="#fraud-checks">Details</a>.</sub>
+</p>
 
-![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
-![pandas](https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=white)
-![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?logo=powerbi&logoColor=black)
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/haashirk20/customertransactionanalysis/blob/main/businessanalsytproject.ipynb)
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-08306B?style=flat-square&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/pandas-08306B?style=flat-square&logo=pandas&logoColor=white" alt="pandas">
+  <img src="https://img.shields.io/badge/Power%20BI-08306B?style=flat-square&logo=powerbi&logoColor=white" alt="Power BI">
+  <a href="https://colab.research.google.com/github/haashirk20/customertransactionanalysis/blob/main/businessanalsytproject.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a>
+</p>
 
-## Demo
+<p align="center">
+  <a href="https://colab.research.google.com/github/haashirk20/customertransactionanalysis/blob/main/businessanalsytproject.ipynb">Open the notebook in Colab</a> &middot; <a href="businessanalsytproject.ipynb">view it on GitHub with all charts</a> &middot; Power BI report: <a href="transactionBA.pbix"><code>transactionBA.pbix</code></a>
+</p>
 
-- [Open the notebook in Google Colab](https://colab.research.google.com/github/haashirk20/customertransactionanalysis/blob/main/businessanalsytproject.ipynb), or view [`businessanalsytproject.ipynb`](businessanalsytproject.ipynb) on GitHub with all charts rendered.
-- The Power BI dashboard is in [`transactionBA.pbix`](transactionBA.pbix). Open it in Power BI Desktop.
+---
 
-## Overview
+The project uses the Kaggle [Transactions Fraud Datasets](https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets): 13,305,915 transactions. It looks at when, where and with whom customers spend, then flags two kinds of suspicious activity.
 
-The project uses the Kaggle [Transactions Fraud Datasets](https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets) (13,305,915 transactions). It joins each transaction to its merchant category code, cleans the amounts, timestamps and location fields, and looks at when, where and with whom customers spend. It then flags two kinds of suspicious activity: a card used in a different city within two hours of its last transaction, and a purchase far above that customer's usual spending.
+## Pipeline
 
-## Key features
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme/pipeline-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/readme/pipeline-light.svg">
+    <img src="assets/readme/pipeline-dark.svg" width="880" alt="Pipeline: Kaggle data with 13,305,915 transactions, join merchant category codes, clean amounts, online locations and time parts, explore with charts on a 20,000-row sample, and flag impossible travel and 3 SD spending.">
+  </picture>
+</p>
 
-- Data cleaning in pandas: MCC descriptions joined from `mcc_codes.json`, duplicates dropped, `$` amounts parsed to floats, online transactions given `N/A` state and ZIP, and hour, weekday and month extracted from each timestamp.
-- Charts for transaction volume by hour, top 10 customers by total spend, top 10 merchants by transaction count, top 10 merchant cities by amount spent, chip vs. non-chip transactions, and a per-customer spending scatter plot.
-- An impossible-travel check that flags a customer's transaction when the merchant city changes within two hours of the previous one.
-- A spending anomaly check that flags any transaction above the customer's mean plus three standard deviations.
-- A Power BI report with a geographic heatmap of transactions across countries and US states, and a breakdown of total amount by revenue stream.
-- The full cleaned dataset is exported to `df_merged.csv`.
+Cleaning runs in pandas on the full dataset: merchant category descriptions are joined from `mcc_codes.json`, duplicates are dropped, `$` amounts become floats, online transactions get `N/A` for state and ZIP, and each timestamp is split into hour, weekday and month. The cleaned data is exported to `df_merged.csv`.
 
-## Tech stack
+Charts and both checks run on the first 20,000 rows of the cleaned data. The notebook charts transaction volume by hour, the top 10 customers by total spend, the top 10 merchants by transaction count, the top 10 merchant cities by amount spent, chip vs. non-chip transactions, and a per-customer spending scatter plot. The Power BI report adds a geographic heatmap of transactions across countries and US states, and total amount by revenue stream.
 
-| Area | Tools |
-|---|---|
-| Analysis | Python, pandas, NumPy |
-| Visualization | Matplotlib, Seaborn, Power BI |
-| Environment | Google Colab |
-| Data | Kaggle API |
+## Fraud checks
 
-## Technical highlights
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme/fraud-checks-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/readme/fraud-checks-light.svg">
+    <img src="assets/readme/fraud-checks-dark.svg" width="880" alt="Impossible travel: a card used in a different city less than two hours after its previous transaction. Spending anomaly: a transaction above the customer's own mean plus three standard deviations. On the 20,000-row sample: 2,612 and 203 flagged. Not scored against labelled fraud.">
+  </picture>
+</p>
 
-- The travel check sorts transactions by customer and time, then uses `groupby().diff()` and `groupby().shift()` to compare each transaction with the same customer's previous one. Both checks are vectorised, with no Python loops over rows.
-- The spending check computes each customer's mean and standard deviation once, merges them back onto the transactions, and compares every row in a single expression. Each customer is held to their own baseline, so a big spender isn't flagged for a normal purchase.
-
-## Results
-
-Charts and both fraud checks run on the first 20,000 rows of the cleaned data. The cleaning and the CSV export cover the full dataset. On that 20,000-row sample:
-
-- The impossible-travel check flagged 2,612 transactions.
-- The 3σ spending check flagged 203 transactions.
+The travel check sorts transactions by customer and time, then uses `groupby().diff()` and `groupby().shift()` to compare each transaction with the same customer's previous one. The spending check computes each customer's mean and standard deviation once, merges them back onto the transactions, and compares every row in a single expression. Both checks are vectorised, with no Python loops over rows.
 
 These are counts of flagged rows. The checks have not been scored against labelled fraud cases, so their precision is unknown.
 
